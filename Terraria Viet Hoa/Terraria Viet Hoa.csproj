@@ -1,0 +1,73 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <RootNamespace>Terraria_Viet_Hoa</RootNamespace>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>terraria_icon_by_phantom_ws_df9tne1-fullview.ico</ApplicationIcon>
+    <Title>Terraria Viet Hoa</Title>
+    <Authors>LQC</Authors>
+    <Company>The OWl FONTIER</Company>
+    <Product>Terraria Viet Hoa</Product>
+    <Description>This app made by LQC</Description>
+    <Copyright>Copyright © 2023 The OWL FONTIER</Copyright>
+    <PackageIcon>TerrariaVietHoa.png</PackageIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Images\camera1.png" />
+    <None Remove="Images\Dark_Mage.gif" />
+    <None Remove="Images\discordicon.png" />
+    <None Remove="Images\donate.jpg" />
+    <None Remove="Images\Guide.png" />
+    <None Remove="Images\Hallow.gif" />
+    <None Remove="Images\logoLQC.png" />
+    <None Remove="Images\OWL.png" />
+    <None Remove="Images\public1.png" />
+    <None Remove="Images\Pylons.gif" />
+    <None Remove="Images\question.png" />
+    <None Remove="Images\Rainbow_Slime.gif" />
+    <None Remove="Images\terrariaBGart1.png" />
+    <None Remove="Images\TerrariaVietHoa.png" />
+    <None Remove="Images\tmodloader.jpg" />
+    <None Remove="Images\video-camera.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="terraria_icon_by_phantom_ws_df9tne1-fullview.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\Visual Studio Project\Terraria Viet Hoa\Terraria Viet Hoa\Images\TerrariaVietHoa.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft-WindowsAPICodePack-Shell" Version="1.1.5" />
+    <PackageReference Include="XamlAnimatedGif" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\camera1.png" />
+    <Resource Include="Images\Dark_Mage.gif" />
+    <Resource Include="Images\discordicon.png" />
+    <Resource Include="Images\donate.jpg" />
+    <Resource Include="Images\Guide.png" />
+    <Resource Include="Images\Hallow.gif" />
+    <Resource Include="Images\logoLQC.png" />
+    <Resource Include="Images\OWL.png" />
+    <Resource Include="Images\public1.png" />
+    <Resource Include="Images\Pylons.gif" />
+    <Resource Include="Images\question.png" />
+    <Resource Include="Images\Rainbow_Slime.gif" />
+    <Resource Include="Images\terrariaBGart1.png" />
+    <Resource Include="Images\TerrariaVietHoa.png" />
+    <Resource Include="Images\tmodloader.jpg" />
+    <Resource Include="Images\video-camera.png" />
+  </ItemGroup>
+
+</Project>

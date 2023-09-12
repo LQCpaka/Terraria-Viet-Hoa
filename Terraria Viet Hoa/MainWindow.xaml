@@ -1,0 +1,496 @@
+﻿<Window x:Class="Terraria_Viet_Hoa.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Terraria_Viet_Hoa"
+        mc:Ignorable="d"
+        xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
+        Title="Terraria Viet Hoa" Height="720" Width="1280" WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="NoResize"
+        Icon="/Images/TerrariaVietHoa.png"
+        MouseLeftButtonDown="Window_MouseLeftDown"
+        MouseLeftButtonUp="Window_MouseLeftUp"
+        MouseMove="Window_MouseMove"
+        >
+    <Window.Background>
+        <ImageBrush/>
+    </Window.Background>
+    <Window.Resources>
+        <Style x:Key="ComboBoxToggleButton" TargetType="ToggleButton">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="32" />
+                            </Grid.ColumnDefinitions>
+                            <Border
+                          x:Name="Border"
+                          Grid.ColumnSpan="2"
+                          CornerRadius="16"
+                          Background="{TemplateBinding Background}"
+                          BorderBrush="#73B9EE"
+                          BorderThickness="1.75" 
+                        />
+
+                            <Path
+                            x:Name="Arrow"
+                            Grid.Column="1"    
+                            Fill="{TemplateBinding Foreground}"
+                            Stroke="{TemplateBinding Foreground}"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Data="M 0 0 L 4 4 L 8 0 Z"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <ControlTemplate x:Key="ComboBoxTextBox" TargetType="TextBox">
+            <Border x:Name="PART_ContentHost" Focusable="True" />
+        </ControlTemplate>
+
+        <Style x:Key="theComboBox" TargetType="{x:Type ComboBox}">
+
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderBrush" Value="#5494DA" />
+            <Setter Property="Background" Value="#1750AC" />
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="MinWidth" Value="150"/>
+            <Setter Property="MinHeight" Value="35"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <ToggleButton
+                            Cursor="Hand"
+                            Name="ToggleButton"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            Background="{TemplateBinding Background}"
+                            Foreground="{TemplateBinding Foreground}"
+                            Style="{StaticResource ComboBoxToggleButton}"
+                            Grid.Column="2"
+                            Focusable="false"
+                            IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
+                            ClickMode="Press"/>
+
+                            <ContentPresenter
+                            Name="ContentSite"
+                            IsHitTestVisible="False"
+                            Content="{TemplateBinding SelectionBoxItem}"
+                            ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                            ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                            Margin="10,3,30,3"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left" />
+                            <TextBox x:Name="PART_EditableTextBox"
+                            Style="{x:Null}"
+                            Template="{StaticResource ComboBoxTextBox}"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Margin="3,3,23,3"
+                            Focusable="True"                               
+                            Visibility="Hidden"
+                            IsReadOnly="{TemplateBinding IsReadOnly}"/>
+                            <Popup
+                            Name="Popup"
+                            Placement="Bottom"
+                            IsOpen="{TemplateBinding IsDropDownOpen}"
+                            AllowsTransparency="True"
+                            Focusable="False"
+                            PopupAnimation="Slide">
+                                <Grid
+                              Name="DropDown"
+                              SnapsToDevicePixels="True"               
+                              MinWidth="{TemplateBinding ActualWidth}"
+                              MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                    <Border
+                                    CornerRadius="8"
+                                    x:Name="DropDownBorder"
+                                    Background="White"
+                                    BorderThickness="1"
+                                    BorderBrush="#F6F6F6"
+                                    />
+                                    <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
+                                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                    </ScrollViewer>
+                                </Grid>
+                            </Popup>
+
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="HasItems" Value="false">
+                                <Setter TargetName="DropDownBorder" Property="MinHeight" Value="95"/>
+                            </Trigger>
+                            <Trigger Property="IsGrouping" Value="true">
+                                <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                            </Trigger>
+                            <Trigger Property="IsEditable" Value="true">
+                                <Setter Property="IsTabStop" Value="false"/>
+                                <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible"/>
+                                <Setter TargetName="ContentSite" Property="Visibility" Value="Hidden"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="theComboBoxItem" TargetType="{x:Type ComboBoxItem}">
+            <Setter Property="SnapsToDevicePixels" Value="true" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBoxItem">
+                        <Border
+                        Name="Border"
+                        Padding="5"
+                        Margin="2"
+                        BorderThickness="2,0,0,0"
+                        CornerRadius="0"
+                        Background="Transparent"
+                        BorderBrush="Transparent">
+                            <TextBlock TextAlignment="Left">
+                            <ContentPresenter />
+                            </TextBlock>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsHighlighted" Value="true">
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#B3CB37"/>
+                                <Setter TargetName="Border" Property="Background" Value="#F8FAEB"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="ListBoxItem">
+            <Setter Property="Effect" Value="{x:Null}" />
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <!--background-->
+        <Image x:Name="backgroundImg" Source="./Images/terrariaBGart1.png" Stretch="Fill" />
+        <!--Logo-->
+        <Image Source="./Images/logoLQC.png" Height="100" Width="100" Margin="-12,-21,1192,641" />
+        <!-- Exit & Minimized button-->
+        <Button x:Name="MinimizeButton" 
+                Content="-" 
+                FontSize="30" FontWeight="Bold"               
+                Padding="0"
+                Width="40" Height="40" 
+                HorizontalAlignment="Right" 
+                VerticalAlignment="Top" 
+                Margin="0,0,40,0" 
+                Opacity="0.5" 
+                Foreground="White"
+                Background="Transparent" 
+                BorderBrush="Transparent" 
+                Cursor="Hand" 
+                Click="MinimizeButton_Click"
+                />
+        <Button x:Name="ExitButton"
+                FontSize="15" 
+                FontWeight="Bold"
+                Content="X"
+                Width="40" Height="40"
+                HorizontalAlignment="Right" 
+                VerticalAlignment="Top" 
+                Opacity="0.5" 
+                Foreground="White"
+                Background="Transparent" 
+                BorderBrush="Transparent" 
+                Cursor="Hand" 
+                Click="ExitButton_Click"
+                />
+        <!-- Retangle Layout-->
+        <Rectangle Width="1280" 
+                   Height="150" 
+                   VerticalAlignment="Bottom"
+                   Fill="Black"
+                   Opacity="0.5"
+                   />
+        <!--install button-->
+        <Button x:Name="installBtn"
+                    Content="INSTALL"
+                    FontFamily="Roboto"
+                    FontWeight="Bold"
+                    FontSize="40"
+                    Width="200"
+                    Height="90"
+                    Margin="1040,600,40,30"
+                    Cursor="Hand" Click="installBtn_Click" >
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Background" Value="#1750AC"/>
+
+                    <Setter Property="BorderBrush" Value="#73B9EE">
+                    </Setter>
+
+                    <Setter Property="Foreground" Value="white"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="3" CornerRadius="10">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+
+                            <Setter Property="Effect">
+                                <Setter.Value>
+                                    <DropShadowEffect BlurRadius="10" Color="White" Opacity="1" Direction="2" ShadowDepth="1" />
+                                </Setter.Value>
+                            </Setter>
+
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+        <!--Path TextBox-->
+        <TextBox x:Name="txtSelectedPathBox" 
+                     Foreground="White"
+                     BorderThickness="1.5"
+                     FontSize="20"
+                     VerticalContentAlignment="Center"
+                     Height="40"
+                     Width="300" 
+                     BorderBrush="#5494DA"
+                     Text="C:\Users\?\Documents\My Games\Terraria" 
+                     Margin="576,650,404,30"          
+                     >
+            <TextBox.Background>
+                <SolidColorBrush Color="DimGray" Opacity="0.5" />
+            </TextBox.Background>
+
+            <TextBox.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="16"/>
+                </Style>
+            </TextBox.Resources>
+        </TextBox>
+        <!--Txt Notification-->
+        <TextBlock x:Name="txtNotification" 
+                       Width="300" Height="45" 
+                       
+                       FontWeight="Bold"
+                       FontFamily="Roboto"
+                       Padding="2"
+                       FontSize="17"
+                       TextAlignment="Center"
+                       
+                       TextWrapping="Wrap"
+                       Foreground="Yellow" Margin="576,605,404,70" > Tip: Nhấn vào nút ? để tham gia server discord.</TextBlock>
+        <!--Browse Button-->
+        <Button x:Name="browsebutton"
+                    
+                    Content="BROWSE" 
+                    FontWeight="Bold"                  
+                    Height="40"
+                    Width="130"
+                    FontSize="14"
+                    Cursor="Hand" Click="browseBtn_Click" Margin="885,650,245,30"
+                    >
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Background" Value="#1750AC"/>
+                    <Setter Property="BorderBrush" Value="#73B9EE">
+                    </Setter>
+                    <Setter Property="Effect">
+                        <Setter.Value>
+                            <DropShadowEffect BlurRadius="0" Color="Transparent" Opacity="0" Direction="0" ShadowDepth="0" />
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Foreground" Value="white"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1.75" CornerRadius="16">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Effect">
+                                <Setter.Value>
+                                    <DropShadowEffect BlurRadius="10" Color="White" Opacity="1" Direction="2" ShadowDepth="1" />
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+        <!--ComboBox Selection-->
+        <ComboBox x:Name="cbVersionCheck"
+                    FontSize="13"
+                    Width="130"
+                    Height="40"
+                    Style="{DynamicResource theComboBox}"
+                    Padding="15,5,15,5"
+                    HorizontalContentAlignment="Left"
+                    VerticalAlignment="Top"
+                    MinWidth="100"
+                    MaxWidth="375"
+                    ItemContainerStyle="{DynamicResource theComboBoxItem}" SelectedIndex="0" Margin="885,605,245,0"                    
+                >
+            <ComboBoxItem Cursor="Hand" Foreground="Black">Terraria Classic</ComboBoxItem>
+            <ComboBoxItem Cursor="Hand" Foreground="Black">Tmodloader</ComboBoxItem>
+        </ComboBox>
+        <!--Link discord & donate-->
+        <Button x:Name="linkDD"
+            Width="50"
+            Height="50"
+            Cursor="Hand" 
+            Opacity="0.3"
+            Click="btnHideShow"
+            Background="White" Margin="1210,502,20,168"
+                    >
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="22.5">
+                                    <!-- Giá trị CornerRadius là nửa chiều rộng của button -->
+                                    <ContentPresenter HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+            <Image Width="33" Height="29" 
+                Opacity="0.7"
+                VerticalAlignment="Center" 
+                HorizontalAlignment="Center" 
+                Source="/Images/question.png"/>
+        </Button>
+        <Grid x:Name="linklayout" Width="1200"
+              Height="400"
+              Opacity="0"
+              Margin="40,102,40,218">
+            <Button x:Name="linkytb" 
+                    Width="600" 
+                    Height="350"
+                    Cursor="Hand" 
+                    Click="link_Click" 
+                    Margin="515,25,85,25" 
+                    
+                    Opacity="1"                 
+                    >
+
+                <Button.Style>
+                    <Style TargetType="Button">
+
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}"
+                                            
+                                
+                                            CornerRadius="22.5" BorderThickness="3" BorderBrush="#5494DA">
+                                        <!-- Giá trị CornerRadius là nửa chiều rộng của button -->
+                                        <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+
+                    </Style>
+                </Button.Style>
+
+                <Button.Background>
+                    <ImageBrush ImageSource="/Images/public1.png"/>
+                </Button.Background>
+
+            </Button>
+            <!--link discord-->
+            <Image x:Name="artYtb" 
+                   gif:AnimationBehavior.SourceUri="/Images/Dark_Mage.gif"
+                   Height="100"
+                   Width="100"
+                   Opacity="1" 
+                   Margin="1065,291,35,9"/>
+            <Image x:Name="discordicon" 
+                   Source="./Images/discordicon.png" 
+                   Height="60" Width="60" 
+                   Margin="570,281,570,59" 
+                   Opacity="1"></Image>
+            <TextBlock
+                Text="Tham gia Discord"
+                Foreground="White"
+                Height="100"
+                Width="400"
+                FontSize="30"
+                FontFamily="Karmatic Arcade"               
+                Margin="644,291,156,9"
+                />
+            <!--Donate-->
+            <Image Source="./Images/donate.jpg" Height="350" Width="300" Margin="90,15,810,35"/>
+            <TextBlock
+                Text="Donate"
+                Foreground="White"
+                
+                FontSize="30"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left"               
+                FontFamily="Karmatic Arcade" Margin="162,366,0,0"  />
+        </Grid>
+        <!--Credit-->
+        <Image gif:AnimationBehavior.SourceUri="./Images/Hallow.gif"
+               Height="100"
+               Width="90" Margin="449,590,731,10"
+                   />
+        <Image gif:AnimationBehavior.SourceUri="/Images/Pylons.gif" 
+               Height="100"
+               Width="90" Margin="22,590,1158,10"
+                   />
+        <ScrollViewer Height="100"  ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden" Margin="142,600,851,20">
+            <TextBlock x:Name="rainbowTextq" TextWrapping="Wrap" FontSize="14" FontWeight="Bold" Foreground="White" TextAlignment="Center" FontFamily="Roboto" Width="287"  >
+                    <Span FontWeight="Bold"  FontSize="20">----CREDITS----</Span> <LineBreak/><LineBreak/>
+                    <Span FontWeight="DemiBold"  FontSize="16" >Leader Dự Án:</Span><LineBreak/>
+                    <Span FontWeight="Light" >LQC</Span><LineBreak/>
+                    <Span FontWeight="DemiBold"  FontSize="16" >Dịch giả cùng tham gia:</Span><LineBreak/>
+                    <Span FontWeight="Light" >LQC, Bora, Hung Nguyen, SlenPhong,</Span><LineBreak/>
+                    <Span FontWeight="Light" >SpainwithoutS, Elus, Vishagna, Kaze2039,</Span><LineBreak/>
+                    <Span FontWeight="Light" >Lewy</Span><LineBreak/>
+                    <Span FontWeight="DemiBold"  FontSize="16" >Coder Font, Bộ Cài:</Span><LineBreak/>
+                    <Span FontWeight="Light" >LQC</Span><LineBreak/>                   
+                    <Span FontWeight="DemiBold"  FontSize="16" >Designer:</Span><LineBreak/>
+                    <Span FontWeight="Light" >KelvinDuong</Span><LineBreak/><LineBreak/>
+                    <Span FontWeight="DemiBold"  FontSize="16" >Một vài lời nói chung:</Span><LineBreak/>
+                    <Span FontWeight="Light" Foreground="White">Lời đầu tiên thì là lời cảm ơn đến những bạn đã dốc sức cực
+                                                công mà tham gia đến dự án này, nhờ có các bạn, dự án đã được
+                                                hoàn thành rất nhanh. Điều thứ 2: là gửi đến những bạn người chơi
+                                                là dịch giả bên mình đã cố gắng, cùng nhau thống nhất, dịch các
+                                                từ phù hợp nhất để bạn có thể có một trải nghiệm toàn vẹn.
+                                                Hi vọng các bạn sẽ hài lòng với sản phẩm của tụi mình làm ra.
+                                                </Span><LineBreak/><LineBreak/>
+                    
+                    <Span FontWeight="DemiBold" FontSize="20" >Một lần nữa, xin cảm ơn các bạn đã chơi sản phẩm này!</Span><LineBreak/>
+            </TextBlock>
+        </ScrollViewer>
+    </Grid>
+</Window>
